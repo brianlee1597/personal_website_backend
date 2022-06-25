@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "koa": "^2.13.4",
+    "nodemailer": "^6.7.5",
+    "nodemailer-sendinblue-transport": "^1.2.3"
+  }
+}
