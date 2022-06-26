@@ -3,7 +3,7 @@ const { createTransport } = require("nodemailer");
 require("dotenv").config();
 
 const app = new Koa();
-const tp = createTransport({
+const { sendMail } = createTransport({
     host: process.env.HOST,
     port: parseInt(process.env.MAIL_PORT),
     auth: {
@@ -26,7 +26,7 @@ app.use(async ctx => {
         text: 'Have the most fun you can in a car. Get your Tesla today!'
     };
     
-    tp.sendMail(message, (err, i) => console.log(err ? err : i));
+    sendMail(message, (err, i) => console.log(err ? err : i));
     
     ctx.status = 200;
     ctx.body = "Successfully Sent";
