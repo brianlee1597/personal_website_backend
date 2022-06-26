@@ -30,7 +30,7 @@ app.post("/send_email", (req, res) => {
     };
     
     ts.sendMail(message, (err, i) => console.log(err ? err : i));
-    res.status(200).send("Successfully Sent");
+    res.status(200).send("Successfully Sent"); 
 })
 
 app.listen(process.env.PORT | 4200, () => {
