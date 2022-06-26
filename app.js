@@ -37,7 +37,7 @@ app.post("/send_email", (req, res) => {
     res.status(200).json("Successfully Sent"); 
 })
 
-const port = process.env.PORT || 4200;
+const port = process.env.PORT ?? 4200;
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
