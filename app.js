@@ -14,10 +14,10 @@ const tp = createTransport({
 
 app.use(async ctx => {
     const req_url = ctx.URL.toString();
-    if (!req_url.includes(process.env.URL)) {
-        ctx.status = 401;
-        ctx.body = "Unauthorized";
-    } //...hm
+    // if (!req_url.includes(process.env.URL)) {
+    //     ctx.status = 401;
+    //     ctx.body = "Unauthorized";
+    // } //...hm
 
     const message = {
         from: 'testing@gmail.com',
