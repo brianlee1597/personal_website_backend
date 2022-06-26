@@ -1,9 +1,14 @@
 const Koa = require("koa");
+const bodyParser = require('koa-bodyparser');
+const Router = require('koa-router');
 const { createTransport } = require("nodemailer");
 require("dotenv").config();
 
 const app = new Koa();
-const { sendMail } = createTransport({
+const router = new Router();
+app.use(bodyParser());
+
+const ts = createTransport({
     host: process.env.HOST,
     port: parseInt(process.env.MAIL_PORT),
     auth: {
@@ -12,7 +17,7 @@ const { sendMail } = createTransport({
     }
 });
 
-app.use(async ctx => {
+router.post("/send_email", (ctx) => {
     const req_url = ctx.URL.toString();
     // if (!req_url.includes(process.env.URL)) {
     //     ctx.status = 401;
@@ -26,11 +31,15 @@ app.use(async ctx => {
         text: 'Have the most fun you can in a car. Get your Tesla today!'
     };
     
-    sendMail(message, (err, i) => console.log(err ? err : i));
+    ts.sendMail(message, (err, i) => console.log(err ? err : i));
     
     ctx.status = 200;
     ctx.body = "Successfully Sent";
-});
+})
+
+app
+  .use(router.routes())
+  .use(router.allowedMethods());
 
 app.listen(3000);
 console.log("Server is Running");
