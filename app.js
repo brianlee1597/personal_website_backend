@@ -16,6 +16,7 @@ const ts = createTransport({
 })
 
 app.post("/send_email", (req, res) => {
+    console.log("Triggered");
     const req_url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     if (!req_url.includes(process.env.URL)) {
         res.status(401).send(`URL ${req_url} is Unauthorized`);
