@@ -13,7 +13,7 @@ const ts = createTransport({
       user: process.env.USERNAME,
       pass: process.env.PASSWORD,
     }
-});
+})
 
 app.post("/send_email", (req, res) => {
     const req_url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
