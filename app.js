@@ -36,6 +36,6 @@ app.post("/send_email", (req, res) => {
     res.send("Successfully Sent");
 })
 
-app.listen(3000, () => {
-  console.log(`Server running on port 3000`);
+app.listen(process.env.PORT | 4200, () => {
+  console.log(`Server running on port ${process.env.PORT}`);
 })
