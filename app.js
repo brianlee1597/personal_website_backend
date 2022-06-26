@@ -18,8 +18,7 @@ const ts = createTransport({
 app.post("/send_email", (req, res) => {
     const req_url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     if (!req_url.includes(process.env.URL)) {
-        res.status(401);
-        res.send("Unauthorized");
+        res.status(401).send("Unauthorized");
         return;
     } //...hm
 
@@ -32,8 +31,7 @@ app.post("/send_email", (req, res) => {
     
     ts.sendMail(message, (err, i) => console.log(err ? err : i));
     
-    res.status(200);
-    res.send("Successfully Sent");
+    res.status(200).send("Successfully Sent");
 })
 
 app.listen(process.env.PORT | 4200, () => {
