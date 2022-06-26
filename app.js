@@ -22,7 +22,7 @@ app.post("/send_email", (req, res) => {
         console.log(req.get("origin"), process.env.URL);
         res.status(401).json(`Unauthorized`);
         return;
-    } //...hm
+    }
 
     const message = {
         from: req.body.from,
