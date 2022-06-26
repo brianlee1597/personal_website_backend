@@ -4,9 +4,8 @@ const cors = require("cors");
 const { createTransport } = require("nodemailer");
 require("dotenv").config();
 
-const app = express();
-app.use(cors());
-app.use(bodyParser.json())
+const { use, post, listen } = express();
+use(cors(), bodyParser.json());
 
 const ts = createTransport({
     host: process.env.HOST,
@@ -17,9 +16,12 @@ const ts = createTransport({
     }
 })
 
-app.post("/send_email", (req, res) => {
-    if (!req.get("origin").includes(process.env.URL)) {
-        console.log(req.get("origin"), process.env.URL);
+post("/send_email", (req, res) => {
+    const post_url = req.get("origin");
+    const allowed_url = process.env.URL;
+
+    if (!post_url.includes(allowed_url)) {
+        console.log(post_url, allowed_url);
         res.status(401).json(`Unauthorized`);
         return;
     }
@@ -27,7 +29,7 @@ app.post("/send_email", (req, res) => {
     const message = {
         from: req.body.from,
         to: process.env.BRIAN_CONTACT,
-        subject: `${process.env.TITLE} - ${req.body.title}`,
+        subject: `${process.env.TITLE} - ${req.body.title || ""}`,
         text: req.body.text,
     };
     
@@ -37,6 +39,6 @@ app.post("/send_email", (req, res) => {
 
 const port = process.env.PORT || 4200;
 
-app.listen(port, () => {
+listen(port, () => {
   console.log(`Server running on port ${port}`);
 })
