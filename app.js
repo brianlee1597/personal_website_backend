@@ -1,12 +1,14 @@
 const Koa = require("koa");
-const bodyParser = require('koa-bodyparser');
-const Router = require('koa-router');
+const bodyParser = require("koa-bodyparser");
+const Router = require("koa-router");
+// const cors = require("@koa/cors");
 const { createTransport } = require("nodemailer");
 require("dotenv").config();
 
 const app = new Koa();
 const router = new Router();
 app.use(bodyParser());
+// app.use(cors());
 
 const ts = createTransport({
     host: process.env.HOST,
@@ -19,16 +21,16 @@ const ts = createTransport({
 
 router.post("/send_email", (ctx) => {
     const req_url = ctx.URL.toString();
-    // if (!req_url.includes(process.env.URL)) {
-    //     ctx.status = 401;
-    //     ctx.body = "Unauthorized";
-    // } //...hm
+    if (!req_url.includes(process.env.URL)) {
+        ctx.status = 401;
+        ctx.body = "Unauthorized";
+    } //...hm
 
     const message = {
-        from: 'testing@gmail.com',
+        from: ctx.request.body.from,
         to: process.env.BRIAN_CONTACT,
         subject: process.env.TITLE,
-        text: 'Have the most fun you can in a car. Get your Tesla today!'
+        text: ctx.request.body.text,
     };
     
     ts.sendMail(message, (err, i) => console.log(err ? err : i));
