@@ -27,7 +27,7 @@ app.post("/send_email", (req, res) => {
     const message = {
         from: req.body.from,
         to: process.env.BRIAN_CONTACT,
-        subject: process.env.TITLE,
+        subject: `${process.env.TITLE} - ${req.body.title}`,
         text: req.body.text,
     };
     
