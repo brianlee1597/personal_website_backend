@@ -41,7 +41,7 @@ router.post("/send_email", (ctx) => {
 
 app
   .use(router.routes())
-  .use(router.allowedMethods());
+  .use(router.allowedMethods()); 
 
 app.listen(3000);
 console.log("Server is Running");
