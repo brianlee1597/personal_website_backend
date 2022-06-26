@@ -19,7 +19,7 @@ const ts = createTransport({
 
 app.post("/send_email", (req, res) => {
     if (!req.get("origin").includes(process.env.URL)) {
-        console.log(req.get("origin"));
+        console.log(req.get("origin"), process.env.URL);
         res.status(401).json(`Unauthorized`);
         return;
     } //...hm
