@@ -1,14 +1,14 @@
 const Koa = require("koa");
 const bodyParser = require("koa-bodyparser");
 const Router = require("koa-router");
-// const cors = require("@koa/cors");
+const cors = require("@koa/cors");
 const { createTransport } = require("nodemailer");
 require("dotenv").config();
 
 const app = new Koa();
 const router = new Router();
 app.use(bodyParser());
-// app.use(cors());
+app.use(cors());
 
 const ts = createTransport({
     host: process.env.HOST,
