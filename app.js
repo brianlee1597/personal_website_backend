@@ -1,13 +1,9 @@
-const Koa = require("koa");
-const bodyParser = require("koa-bodyparser");
-const Router = require("koa-router");
-const cors = require("@koa/cors");
+const express = require("express");
+const cors = require("cors");
 const { createTransport } = require("nodemailer");
 require("dotenv").config();
 
-const app = new Koa();
-const router = new Router();
-app.use(bodyParser());
+const app = express();
 app.use(cors());
 
 const ts = createTransport({
@@ -19,11 +15,12 @@ const ts = createTransport({
     }
 });
 
-router.post("/send_email", (ctx) => {
-    const req_url = ctx.URL.toString();
+app.post("/send_email", (req, res) => {
+    const req_url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     if (!req_url.includes(process.env.URL)) {
-        ctx.status = 401;
-        ctx.body = "Unauthorized";
+        res.status(401);
+        res.send("Unauthorized");
+        return;
     } //...hm
 
     const message = {
@@ -35,13 +32,10 @@ router.post("/send_email", (ctx) => {
     
     ts.sendMail(message, (err, i) => console.log(err ? err : i));
     
-    ctx.status = 200;
-    ctx.body = "Successfully Sent";
+    res.status(200);
+    res.send("Successfully Sent");
 })
 
-app
-  .use(router.routes())
-  .use(router.allowedMethods()); 
-
-app.listen(3000);
-console.log("Server is Running");
+app.listen(3000, () => {
+  console.log(`Server running on port 3000`);
+})
