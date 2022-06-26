@@ -4,8 +4,8 @@ const cors = require("cors");
 const { createTransport } = require("nodemailer");
 require("dotenv").config();
 
-const { use, post, listen } = express();
-use(cors(), bodyParser.json());
+const app = express();
+app.use(cors(), bodyParser.json());
 
 const ts = createTransport({
     host: process.env.HOST,
@@ -16,7 +16,7 @@ const ts = createTransport({
     }
 })
 
-post("/send_email", (req, res) => {
+app.post("/send_email", (req, res) => {
     const post_url = req.get("origin");
     const allowed_url = process.env.URL;
 
@@ -39,6 +39,6 @@ post("/send_email", (req, res) => {
 
 const port = process.env.PORT || 4200;
 
-listen(port, () => {
+app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 })
