@@ -20,7 +20,7 @@ app.post("/send_email", (req, res) => {
     const post_url = req.get("origin");
     const allowed_url = process.env.URL;
 
-    if (!post_url ?? !post_url.includes(allowed_url)) {
+    if (post_url && !post_url.includes(allowed_url)) {
         console.log(post_url, allowed_url);
         res.status(401).json(`Unauthorized`);
         return;
